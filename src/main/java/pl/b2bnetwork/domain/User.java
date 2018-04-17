@@ -11,7 +11,7 @@ import lombok.ToString;
 public class User {
 
     private String login;
-    private int id;
+    private long id;
     @JsonProperty("public_repos")
     private int noOfPublicRepos;
     private int followers;

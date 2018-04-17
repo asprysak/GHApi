@@ -10,5 +10,5 @@ import lombok.ToString;
 public class Person {
 
     private String login;
-    private int id;
+    private long id;
 }

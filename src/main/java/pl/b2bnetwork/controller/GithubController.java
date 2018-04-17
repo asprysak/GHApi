@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.b2bnetwork.domain.Gist;
+import pl.b2bnetwork.domain.Repo;
 import pl.b2bnetwork.service.GithubService;
 
 import java.util.List;
@@ -44,11 +45,26 @@ public class GithubController {
 
     @RequestMapping("/gists")
     public List<Gist> gistsOfAnUser(@RequestParam String login) {
-        return githubService.gistsOfAnUSer(login);
+        return githubService.gistsOfAUSer(login);
     }
 
     @RequestMapping("/gistsWhichDescriptionContainsWord")
     public List<Gist> gistsWhichDescriptionContainsWord(@RequestParam String login, String word) {
         return githubService.gistsWhichDescriptionContainsWord(login, word);
+    }
+
+    @RequestMapping("/repos")
+    public List<Repo> reposOfAUser(@RequestParam String login) {
+        return githubService.reposOfAUser(login);
+    }
+
+    @RequestMapping("/reposWhichAreForks")
+    public List<Repo> reposWhichAreForks(@RequestParam String login) {
+        return githubService.reposOfAUserWhichAreForks(login);
+    }
+
+    @RequestMapping("/reposWrittenInASpecificLanguage")
+    public List<Repo> reposWrittenMostlyInASpecificLanguage(@RequestParam String login, String language) {
+        return githubService.reposWrittenMostlyInASpecificLanguage(login, language);
     }
 }
