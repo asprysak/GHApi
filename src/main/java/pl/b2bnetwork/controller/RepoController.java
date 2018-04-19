@@ -8,6 +8,9 @@ import pl.b2bnetwork.domain.Repo;
 import pl.b2bnetwork.domain.RepoMaker;
 import pl.b2bnetwork.service.RepoService;
 
+import java.util.List;
+
+@RequestMapping("/repo")
 @RestController
 public class RepoController {
 
@@ -18,6 +21,23 @@ public class RepoController {
 
     @RequestMapping(value = "/saveRepo", method = RequestMethod.POST)
     public void saveRepo(String login, String repoName) {
+        Repo repo = repoMaker.makeRepo(login, repoName);
+        repoService.saveRepo(repo);
+    }
+
+    @RequestMapping(value = "/deleteRepo", method = RequestMethod.DELETE)
+    public void deleteRepo(String login, String repoName) {
+        Repo repo = repoMaker.makeRepo(login, repoName);
+        repoService.deleteRepo(repo);
+    }
+
+    @RequestMapping(value = "/findAllRepos", method = RequestMethod.GET)
+    public List<Repo> findAll() {
+        return repoService.findAllRepos();
+    }
+
+    @RequestMapping(value = "/updateRepo", method = RequestMethod.PUT)
+    public void updateRepo(String login, String repoName) {
         Repo repo = repoMaker.makeRepo(login, repoName);
         repoService.saveRepo(repo);
     }

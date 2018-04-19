@@ -23,7 +23,7 @@ public class Repo {
     @JsonProperty("full_name")
     private String fullName;
     private String description;
-//    private User owner;
+    //  private User owner;
     private boolean fork;
     @JsonProperty("created_at")
     private String dateOfCreatingARepo;

@@ -11,8 +11,8 @@ import pl.b2bnetwork.service.GithubService;
 
 import java.util.List;
 
-@RestController
 @RequestMapping("/github")
+@RestController
 public class GithubController {
 
     @Autowired

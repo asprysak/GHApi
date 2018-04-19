@@ -10,6 +10,7 @@ import pl.b2bnetwork.service.UserService;
 
 import java.util.List;
 
+@RequestMapping("/user")
 @RestController
 public class UserController {
 
