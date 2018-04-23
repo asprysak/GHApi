@@ -1,3 +1,4 @@
+/*
 package pl.b2bnetwork.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import pl.b2bnetwork.service.RepoService;
 
 import java.util.List;
 
-@RequestMapping("/repo")
+@RequestMapping("/repos")
 @RestController
 public class RepoController {
 
@@ -42,3 +43,4 @@ public class RepoController {
         repoService.saveRepo(repo);
     }
 }
+*/

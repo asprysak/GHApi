@@ -27,7 +27,7 @@ public class SwaggerConfig {
     private ApiInfo metaInfo() {
 
         ApiInfo apiInfo = new ApiInfo(
-                "The Best Investments",
+                "Github Api Example",
                 "Investments description",
                 "0.1",
                 "b2bnetwork.pl/terms",

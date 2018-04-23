@@ -1,17 +1,20 @@
 package pl.b2bnetwork.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 import pl.b2bnetwork.domain.User;
 import pl.b2bnetwork.domain.UserMaker;
 import pl.b2bnetwork.service.UserService;
 
-import java.util.List;
+import javax.validation.Valid;
 
-@RequestMapping("/user")
-@RestController
+@RequestMapping("/users")
+@Controller
 public class UserController {
 
     @Autowired
@@ -19,21 +22,36 @@ public class UserController {
 
     private UserMaker userMaker = new UserMaker();
 
-    @RequestMapping(value = "/saveUser", method = RequestMethod.POST)
-    public void saveUser(String login) {
-        User user = userMaker.makeUser(login);
-        userService.saveUser(user);
+    @RequestMapping("/home")
+    public String getHome(Model model) {
+        model.addAttribute("user", new User());
+        return "home";
     }
 
-    @RequestMapping(value = "/deleteUser", method = RequestMethod.DELETE)
-    public void deleteUser(String login) {
-        User user = userMaker.makeUser(login);
+    @RequestMapping("/saveUser")
+    public String saveUser(Model model, @ModelAttribute @Valid User user, BindingResult bind) {
+        if (bind.hasErrors()) {   //to do
+            return "home";
+        } else {
+            user = userMaker.makeUser(user.getLogin());
+            userService.saveUser(user);
+            model.addAttribute("users", userService.findAllUsers());
+            return "home";
+        }
+    }
+
+    @RequestMapping("/deleteUser")
+    public String deleteUser(Model model, @ModelAttribute @Valid User user, BindingResult bind) {
+        user = userMaker.makeUser(user.getLogin());
         userService.deleteUser(user);
+        model.addAttribute("users", userService.findAllUsers());
+        return "home";
     }
 
     @RequestMapping(value = "/findAll", method = RequestMethod.GET)
-    public List<User> findAllUsers() {
-        return userService.findAllUsers();
+    public String findAllUsers(Model model) {
+        model.addAttribute("users", userService.findAllUsers());
+        return "home";
     }
 
     @RequestMapping(value = "/updateUser", method = RequestMethod.PUT)
