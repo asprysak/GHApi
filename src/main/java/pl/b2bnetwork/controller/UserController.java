@@ -30,8 +30,8 @@ public class UserController {
 
     @RequestMapping("/saveUser")
     public String saveUser(Model model, @ModelAttribute @Valid User user, BindingResult bind) {
-        if (bind.hasErrors()) {   //to do
-            model.addAttribute("message", "Size must be over 1"); //todo
+        if (bind.hasErrors()) {
+            model.addAttribute("message", "Size must be over 1");
             return "home";
         } else {
             user = userMaker.makeUser(user.getLogin());
@@ -43,12 +43,17 @@ public class UserController {
     }
 
     @RequestMapping("/deleteUser")
-    public String deleteUser(Model model, User user) {
-        user.setIdDb(user.getIdDb());
-        user.setLogin(user.getLogin());
-        userService.deleteUser(user);
-        model.addAttribute("users", userService.findAllUsers());
-        return "home";
+    public String deleteUser(Model model, User user, BindingResult bind) {
+        if (bind.hasErrors()) {
+            model.addAttribute("message", "Not correct ID in database");
+            return "home";
+        } else {
+            user.setIdDb(user.getIdDb());
+            user.setLogin(user.getLogin());
+            userService.deleteUser(user);
+            model.addAttribute("users", userService.findAllUsers());
+            return "home";
+        }
     }
 
     @RequestMapping(value = "/findAll", method = RequestMethod.GET)
