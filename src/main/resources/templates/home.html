@@ -8,43 +8,58 @@
 </head>
 <body>
 
+<div class="users">
+    <form action="#" th:action="@{/users/saveUser}" th:object="${user}" method="POST">
+        <table>
+            <tr>
+                <td>Login:</td>
+                <td><input type="text" th:field="*{login}"/></td>
+                <td th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></td>
 
-<form action="#" th:action="@{/users/saveUser}" th:object="${user}" method="POST">
-    <table>
-        <tr>
-            <td>Name:</td>
-            <td><input type="text" th:field="*{login}"/></td>
-            <td th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="submit">Save</button>
+                </td>
+            </tr>
+        </table>
+    </form>
 
-        </tr>
+    <form th:action="@{/users/deleteUser}" th:object="${user}" method="POST">
+        <table>
+            <tr>
+                <td>Id in database:</td>
+                <td><input type="text" th:field="*{idDb}"/></td>
+                <!--<td>Name:</td>
+                <td><input type="text" th:field="*{login}"/></td>-->
+            </tr>
+            <tr>
+                <td>
+                    <button type="submit">Delete</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <span th:text="${message}">Status</span>
+
+    <table class="table">
+        <thead>
         <tr>
-            <td>
-                <button type="submit">Save</button>
-            </td>
+            <th>Login</th>
+            <th>Public repos</th>
         </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.login}">Login</td>
+            <td th:text="${user.idDb}">Id</td>
+            <td th:text="${user.noOfPublicRepos}">Public repos</td>
+        </tr>
+        </tbody>
+
     </table>
-</form>
-
-<form action="#" th:action="@{/users/deleteUser}" th:object="${user}" method="DELETE">
-    <table>
-        <tr>
-            <td>Name:</td>
-            <td><input type="text" th:field="*{login}"/></td>
-        </tr>
-        <tr>
-            <td>
-                <button type="submit">Delete</button>
-            </td>
-        </tr>
-    </table>
-</form>
-
-
-<table>
-    <tr th:each="user : ${users}">
-        <td th:text="${user.login}"></td>
-    </tr>
-</table>
+</div>
 
 
 </body>

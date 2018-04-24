@@ -31,18 +31,21 @@ public class UserController {
     @RequestMapping("/saveUser")
     public String saveUser(Model model, @ModelAttribute @Valid User user, BindingResult bind) {
         if (bind.hasErrors()) {   //to do
+            model.addAttribute("message", "Size must be over 1"); //todo
             return "home";
         } else {
             user = userMaker.makeUser(user.getLogin());
             userService.saveUser(user);
             model.addAttribute("users", userService.findAllUsers());
+            model.addAttribute("message", "User added: " + user.getLogin());
             return "home";
         }
     }
 
     @RequestMapping("/deleteUser")
-    public String deleteUser(Model model, @ModelAttribute @Valid User user, BindingResult bind) {
-        user = userMaker.makeUser(user.getLogin());
+    public String deleteUser(Model model, User user) {
+        user.setIdDb(user.getIdDb());
+        user.setLogin(user.getLogin());
         userService.deleteUser(user);
         model.addAttribute("users", userService.findAllUsers());
         return "home";
