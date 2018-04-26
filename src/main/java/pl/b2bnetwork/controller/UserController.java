@@ -43,7 +43,7 @@ public class UserController {
     }
 
     @RequestMapping("/deleteUser")
-    public String deleteUser(Model model, User user, BindingResult bind) {
+    public String deleteUser(Model model, @ModelAttribute @Valid User user, BindingResult bind) {
         if (bind.hasErrors()) {
             model.addAttribute("message", "Not correct ID in database");
             return "home";

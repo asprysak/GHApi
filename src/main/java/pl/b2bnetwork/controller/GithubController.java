@@ -1,4 +1,3 @@
-/*
 package pl.b2bnetwork.controller;
 
 
@@ -69,4 +68,3 @@ public class GithubController {
         return githubService.reposWrittenMostlyInASpecificLanguage(login, language);
     }
 }
-*/

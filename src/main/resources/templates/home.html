@@ -43,18 +43,25 @@
 
     <span th:text="${message}">Status</span>
 
-    <table class="table">
+    <table class="table" style="width:30%" border="1px solid black">
         <thead>
         <tr>
             <th>Login</th>
+            <th>Id from database</th>
+            <th>Id on GitHub</th>
             <th>Public repos</th>
+            <th>Date of creating an account</th>
+            <th>Followers</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="user : ${users}">
             <td th:text="${user.login}">Login</td>
-            <td th:text="${user.idDb}">Id</td>
+            <td th:text="${user.idDb}">Id from database</td>
+            <td th:text="${user.id}">Id on GitHub</td>
             <td th:text="${user.noOfPublicRepos}">Public repos</td>
+            <td th:text="${user.dateOfCreatingAnAccount}">Date of creating an account</td>
+            <td th:text="${user.followers}">Followers</td>
         </tr>
         </tbody>
 

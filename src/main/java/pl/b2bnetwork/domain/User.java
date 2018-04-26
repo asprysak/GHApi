@@ -7,10 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Data
@@ -25,6 +22,7 @@ public class User {
     private Long idDb;
     @NotNull
     @Length(min = 1)
+    @Column(unique = true) //TODO validacja
     private String login;
     private long id;
     @JsonProperty("public_repos")
