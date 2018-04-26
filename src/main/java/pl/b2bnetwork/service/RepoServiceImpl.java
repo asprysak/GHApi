@@ -15,7 +15,11 @@ public class RepoServiceImpl implements RepoService {
 
     @Override
     public void saveRepo(Repo repo) {
-        repoRepository.save(repo);
+
+        Repo repoFromDb = repoRepository.findByFullName(repo.getFullName());
+        if(repoFromDb == null) {
+            repoRepository.save(repo);
+        }
     }
 
     @Override
@@ -25,11 +29,17 @@ public class RepoServiceImpl implements RepoService {
 
     @Override
     public List<Repo> findAllRepos() {
-        return (List<Repo>) repoRepository.findAll();
+        return repoRepository.findAll();
     }
 
     @Override
     public void updateRepo(Repo repo) {
-        repoRepository.save(repo);
+
+        Repo repoFromDb = repoRepository.findByFullName(repo.getFullName());
+        if(repoFromDb != null) {
+            Long idDb = repoFromDb.getIdDb();
+            repo.setIdDb(idDb);
+            repoRepository.save(repo);
+        }
     }
 }

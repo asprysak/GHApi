@@ -39,6 +39,6 @@ public class RepoController {
     @RequestMapping(value = "/updateRepo", method = RequestMethod.PUT)
     public void updateRepo(String login, String repoName) {
         Repo repo = repoMaker.makeRepo(login, repoName);
-        repoService.saveRepo(repo);
+        repoService.updateRepo(repo);
     }
 }

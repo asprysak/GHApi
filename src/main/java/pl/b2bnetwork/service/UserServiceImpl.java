@@ -15,7 +15,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveUser(User user) {
-        userRepository.save(user);
+
+        User userFromDb = userRepository.findByLogin(user.getLogin());
+        if(userFromDb == null) {
+            userRepository.save(user);
+        }
     }
 
     @Override
@@ -25,11 +29,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findAllUsers() {
-        return (List<User>) userRepository.findAll();
+        return userRepository.findAll();
     }
 
     @Override
     public void updateUser(User user) {
-        userRepository.save(user);
+
+        User userFromDb = userRepository.findByLogin(user.getLogin());
+        if(userFromDb != null) {
+            Long idDb = userFromDb.getIdDb();
+            user.setIdDb(idDb);
+            userRepository.save(user);
+        }
     }
 }
