@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Data
 @Builder
@@ -30,5 +31,8 @@ public class User {
     private int followers;
     @JsonProperty("created_at")
     private String dateOfCreatingAnAccount;
+    @JsonProperty("repos_url")
+    @OneToMany(mappedBy = "owner")
+    private Set<Repo> repos;
 
 }
