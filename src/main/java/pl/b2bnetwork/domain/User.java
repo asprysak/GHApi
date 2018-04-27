@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -21,9 +22,8 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idDb;
-    @NotNull
     @Length(min = 1)
-    @Column(unique = true) //TODO validacja
+    @Column(unique = true)
     private String login;
     private long id;
     @JsonProperty("public_repos")
@@ -32,7 +32,7 @@ public class User {
     @JsonProperty("created_at")
     private String dateOfCreatingAnAccount;
     @JsonProperty("repos_url")
-    @OneToMany(mappedBy = "owner")
-    private Set<Repo> repos;
+    private String reposUrl;
+
 
 }

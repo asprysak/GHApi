@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="author" content="Agata Dziubała & Anna Sprysak"></meta>
+
+    <title>User Home</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand">Menu</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="home">Home</a></li>
+        </ul>
+    </div>
+</nav>
+
+
+<div class="users">
+    <div class="col-xs-3">
+
+        <form action="#" th:action="@{/users/saveUser}" th:object="${user}" method="POST">
+            <div class="thumbnail">
+                <label for="login">User login:</label>
+                <input type="text" class="form-control" th:field="*{login}">
+                <td th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></td>
+            </div>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+        <br><br><br>
+
+        <form th:action="@{/users/deleteUser}" th:object="${user}" method="POST">
+            <div class="thumbnail">
+                <label for="idDb">Id in database</label>
+                <input type="text" class="form-control" th:field="*{idDb}"/>
+                <td th:if="${#fields.hasErrors('idDb')}" th:errors="*{idDb}"></td>
+            </div>
+            <button type="submit" class="btn btn-warning">Delete</button>
+        </form>
+        <br>
+        <h1><label class="label label-info" for="status">Status</label>
+            <label class="label label-info" th:text="${message}">...</label></h1>
+
+    </div>
+
+    <div class="col-xs-9">
+        <table class="table table-responsive table-striped" style="width:80%" border="1px solid black">
+            <thead>
+            <tr>
+                <th>Login</th>
+                <th>Id from database</th>
+                <th>Id on GitHub</th>
+                <th>Public repos</th>
+                <th>Date of creating an account</th>
+                <th>Followers</th>
+                <th>Repos URL</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.login}">Login</td>
+                <td th:text="${user.idDb}">Id from database</td>
+                <td th:text="${user.id}">Id on GitHub</td>
+                <td th:text="${user.noOfPublicRepos}">Public repos</td>
+                <td th:text="${user.dateOfCreatingAnAccount}">Date of creating an account</td>
+                <td th:text="${user.followers}">Followers</td>
+                <td th:text="${user.reposUrl}">Repos URL</td>
+            </tr>
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-copyright py-3 text-center">
+        © 2018 Copyright: Agata Dziubała & Anna Sprysak
+    </div>
+</footer>
+
+</body>
+
+</html>
