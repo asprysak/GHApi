@@ -18,14 +18,12 @@ public class GithubServiceImpl implements GithubService {
 
     @Override
     public int howManyFollowersThePersonHas(String login) {
-
         User user = makeUser(login);
         return user.getFollowers();
     }
 
     @Override
     public int howManyReposThePersonHas(String login) {
-
         User user = makeUser(login);
         return user.getNoOfPublicRepos();
     }

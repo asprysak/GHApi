@@ -53,11 +53,11 @@ public class UserController {
             model.addAttribute("message", "Not correct ID in database");
             return "userForm";
         } else {
-            model.addAttribute("message", "User deleted ");
-            model.addAttribute("users", userService.findAllUsers());
             user.setIdDb(user.getIdDb());
             user.setLogin(user.getLogin());
             userService.deleteUser(user);
+            model.addAttribute("message", "User deleted ");
+            model.addAttribute("users", userService.findAllUsers());
             return "userForm";
         }
     }

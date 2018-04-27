@@ -6,8 +6,8 @@ public class RepoMaker {
 
     private RestTemplate restTemplate = new RestTemplate();
 
-    public Repo makeRepos(String login) {
-        String url = "https://api.github.com/repos/" + login + "/repos";
+    public Repo makeRepo(String login, String repoName) {
+        String url = "https://api.github.com/repos/" + login + "/repos/" + repoName;
         return restTemplate.getForObject(url, Repo.class);
     }
 }

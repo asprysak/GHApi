@@ -8,9 +8,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.util.HashSet;
-import java.util.Set;
 
 @Data
 @Builder
@@ -20,7 +17,7 @@ import java.util.Set;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idDb;
     @Length(min = 1)
     @Column(unique = true)
@@ -33,6 +30,6 @@ public class User {
     private String dateOfCreatingAnAccount;
     @JsonProperty("repos_url")
     private String reposUrl;
-
-
+    @JsonProperty("avatar_url")
+    private String avatarUrl;
 }
