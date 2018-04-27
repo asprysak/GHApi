@@ -53,7 +53,7 @@ public class UserController {
             model.addAttribute("message", "Not correct ID in database");
             return "userForm";
         } else {
-            model.addAttribute("message", "User deleted: ");
+            model.addAttribute("message", "User deleted ");
             model.addAttribute("users", userService.findAllUsers());
             user.setIdDb(user.getIdDb());
             user.setLogin(user.getLogin());
@@ -62,6 +62,13 @@ public class UserController {
         }
     }
 
+    @RequestMapping("/deleteAll")
+    public String deleteAll(Model model, User user) {
+        userService.deleteAll();
+        model.addAttribute("users", userService.findAllUsers());
+        model.addAttribute("message", "Deleted all Users from Database :(");
+        return "userForm";
+    }
 
     @RequestMapping(value = "/findAll", method = RequestMethod.GET)
     public String findAllUsers(Model model) {
