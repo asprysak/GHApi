@@ -3,7 +3,6 @@ package pl.b2bnetwork.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.b2bnetwork.domain.Gist;
 import pl.b2bnetwork.domain.Repo;
@@ -19,52 +18,52 @@ public class GithubController {
     private GithubService githubService;
 
     @RequestMapping("/howManyFollowers")
-    public String howManyFollowers(@RequestParam String login) {
+    public String howManyFollowers(String login) {
         return Integer.toString(githubService.howManyFollowersThePersonHas(login));
     }
 
     @RequestMapping("/howManyRepos")
-    public String howManyRepos(@RequestParam String login) {
+    public String howManyRepos(String login) {
         return Integer.toString(githubService.howManyReposThePersonHas(login));
     }
 
     @RequestMapping("/howManyDays")
-    public String howManyDays(@RequestParam String login) {
+    public String howManyDays(String login) {
         return githubService.howManyDaysAgoTheAccountWasCreated(login);
     }
 
     @RequestMapping("/averageNoOfFollowersOfFollowers")
-    public String averageNoOfFollowersOfFollowers(@RequestParam String login) {
+    public String averageNoOfFollowersOfFollowers(String login) {
         return Double.toString(githubService.averageNoOfFollowersOfFollowers(login));
     }
 
     @RequestMapping("/averageNoOfFollowersRepos")
-    public String averageNoOfFollowersRepos(@RequestParam String login) {
+    public String averageNoOfFollowersRepos(String login) {
         return Double.toString(githubService.averageNoOfFollowersRepos(login));
     }
 
     @RequestMapping("/gists")
-    public List<Gist> gistsOfAnUser(@RequestParam String login) {
+    public List<Gist> gistsOfAnUser(String login) {
         return githubService.gistsOfAUSer(login);
     }
 
     @RequestMapping("/gistsWhichDescriptionContainsWord")
-    public List<Gist> gistsWhichDescriptionContainsWord(@RequestParam String login, String word) {
+    public List<Gist> gistsWhichDescriptionContainsWord(String login, String word) {
         return githubService.gistsWhichDescriptionContainsWord(login, word);
     }
 
     @RequestMapping("/repos")
-    public List<Repo> reposOfAUser(@RequestParam String login) {
+    public List<Repo> reposOfAUser(String login) {
         return githubService.reposOfAUser(login);
     }
 
     @RequestMapping("/reposWhichAreForks")
-    public List<Repo> reposWhichAreForks(@RequestParam String login) {
+    public List<Repo> reposWhichAreForks(String login) {
         return githubService.reposOfAUserWhichAreForks(login);
     }
 
     @RequestMapping("/reposWrittenInASpecificLanguage")
-    public List<Repo> reposWrittenMostlyInASpecificLanguage(@RequestParam String login, String language) {
-        return githubService.reposWrittenMostlyInASpecificLanguage(login, language);
+    public List<Repo> reposWrittenMostlyInASpecificLanguage(String login, String lang) {
+        return githubService.reposWrittenMostlyInASpecificLanguage(login, lang);
     }
 }
