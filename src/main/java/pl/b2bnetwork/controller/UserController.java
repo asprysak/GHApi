@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import pl.b2bnetwork.domain.Repo;
 import pl.b2bnetwork.domain.RepoMaker;
 import pl.b2bnetwork.domain.User;
@@ -26,10 +27,16 @@ public class UserController {
 
     private RepoMaker repoMaker = new RepoMaker();
 
-    @RequestMapping("/home")
+    @RequestMapping(value={"", "/", "home"})
     public String getHome(Model model) {
-        model.addAttribute("user", new User());
         model.addAttribute("users", userService.findAllUsers());
+        return "userHome";
+    }
+
+    @RequestMapping("/form")
+    public String getForm(Model model) {
+        model.addAttribute("user", new User());
+        //model.addAttribute("users", userService.findAllUsers());
         return "userForm";
     }
 
@@ -43,23 +50,16 @@ public class UserController {
             userService.saveUser(user);
             model.addAttribute("users", userService.findAllUsers());
             model.addAttribute("message", "User added: " + user.getLogin());
-            return "userForm";
+            return "userHome";
         }
     }
 
     @RequestMapping("/deleteUser")
-    public String deleteUser(Model model, @ModelAttribute @Valid User user, BindingResult bind) {
-        if (bind.hasErrors()) {
-            model.addAttribute("message", "Not correct ID in database");
-            return "userForm";
-        } else {
-            user.setIdDb(user.getIdDb());
-            user.setLogin(user.getLogin());
-            userService.deleteUser(user);
-            model.addAttribute("message", "User deleted ");
+    public String deleteUser(Model model, @RequestParam final Long idDb) {
+            userService.deleteUser(idDb);
+           model.addAttribute("message", "User deleted ");
             model.addAttribute("users", userService.findAllUsers());
             return "userForm";
-        }
     }
 
     @RequestMapping("/deleteAll")

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="author" content="Agata Dziubała & Anna Sprysak"></meta>
+
+    <title>User Home</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand">Menu</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="/users/form">New user</a></li>
+            <li class="actice"><a href="/users/home">All users</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="row">
+    <div class="col-xs-12">
+        <h2>
+            <label class="label label-info" th:text="${message}">Status of action?</label>
+        </h2>
+    </div>
+</div>
+
+<div class="users">
+    <div class="col-xs-9">
+        <table class="table table-responsive table-striped" style="width:80%" border="1px solid black">
+            <thead>
+            <tr>
+                <th>Login</th>
+                <th>Id from database</th>
+                <th>Id on GitHub</th>
+                <th>Public repos</th>
+                <th>Date of creating an account</th>
+                <th>Followers</th>
+                <th>Repos URL</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.login}">Login</td>
+                <td th:text="${user.idDb}">Id from database</td>
+                <td th:text="${user.id}">Id on GitHub</td>
+                <td th:text="${user.noOfPublicRepos}">Public repos</td>
+                <td th:text="${user.dateOfCreatingAnAccount}">Date of creating an account</td>
+                <td th:text="${user.followers}">Followers</td>
+                <td th:text="${user.reposUrl}">Repos URL</td>
+                <td>
+                    <a th:href="@{/users/deleteUser?idDb={idDb}(idDb=${user.idDb})}"
+                       role="button" class="btn btn-danger">
+                        <i class="fa fa-info"></i>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <form th:action="@{/users/deleteAll}" method="POST">
+            <button type="submit" class="btn btn-danger">Delete all</button>
+        </form>
+    </div>
+</div>
+</body>
+
+</html>
