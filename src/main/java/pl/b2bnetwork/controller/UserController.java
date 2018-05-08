@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import pl.b2bnetwork.domain.Repo;
 import pl.b2bnetwork.domain.RepoMaker;
 import pl.b2bnetwork.domain.User;
 import pl.b2bnetwork.domain.UserMaker;
@@ -27,7 +26,7 @@ public class UserController {
 
     private RepoMaker repoMaker = new RepoMaker();
 
-    @RequestMapping(value={"", "/", "home"})
+    @RequestMapping(value = {"", "/", "home"})
     public String getHome(Model model) {
         model.addAttribute("users", userService.findAllUsers());
         return "userHome";
@@ -43,7 +42,7 @@ public class UserController {
     @RequestMapping("/saveUser")
     public String saveUser(Model model, @ModelAttribute @Valid User user, BindingResult bind) {
         if (bind.hasErrors()) {
-            model.addAttribute("message", "Size must be over 1");
+            model.addAttribute("message", "It cannot be that login");
             return "userForm";
         } else {
             user = userMaker.makeUser(user.getLogin());
@@ -56,10 +55,10 @@ public class UserController {
 
     @RequestMapping("/deleteUser")
     public String deleteUser(Model model, @RequestParam final Long idDb) {
-            userService.deleteUser(idDb);
-           model.addAttribute("message", "User deleted ");
-            model.addAttribute("users", userService.findAllUsers());
-            return "userForm";
+        userService.deleteUser(idDb);
+        model.addAttribute("message", "User deleted ");
+        model.addAttribute("users", userService.findAllUsers());
+        return "userForm";
     }
 
     @RequestMapping("/deleteAll")
