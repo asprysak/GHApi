@@ -32,4 +32,7 @@ public class User {
     private String reposUrl;
     @JsonProperty("avatar_url")
     private String avatarUrl;
+
+    //TODO builder
+
 }

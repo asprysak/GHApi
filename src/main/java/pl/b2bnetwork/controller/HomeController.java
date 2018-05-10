@@ -8,7 +8,7 @@ import pl.b2bnetwork.domain.User;
 @Controller
 public class HomeController {
 
-    @RequestMapping(value={"", "/", "home"})
+    @RequestMapping(value = {"", "/", "home"})
     public String getHome(Model model) {
         model.addAttribute("user", new User());
         return "userHome";
