@@ -5,6 +5,7 @@ import pl.b2bnetwork.domain.User;
 import java.util.List;
 
 public interface UserService {
+
     void saveUser(User user);
 
     void deleteUser(Long id);
@@ -14,5 +15,7 @@ public interface UserService {
     void updateUser(User user);
 
     void deleteAll();
+
+    User findOne(Long id);
 }
 

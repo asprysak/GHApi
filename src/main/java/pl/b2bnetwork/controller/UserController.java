@@ -4,10 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 import pl.b2bnetwork.domain.RepoMaker;
 import pl.b2bnetwork.domain.User;
 import pl.b2bnetwork.domain.UserMaker;
@@ -54,19 +52,20 @@ public class UserController {
     }
 
     @RequestMapping("/deleteUser")
-    public String deleteUser(Model model, @RequestParam final Long idDb) {
+    public String deleteUser(Model model, @RequestParam Long idDb) {
+        String login = userService.findOne(idDb).getLogin();
         userService.deleteUser(idDb);
-        model.addAttribute("message", "User deleted ");
         model.addAttribute("users", userService.findAllUsers());
-        return "userForm";
+        model.addAttribute("message", "User deleted: " + login);
+        return "userHome";
     }
 
     @RequestMapping("/deleteAll")
-    public String deleteAll(Model model, User user) {
+    public String deleteAll(Model model) {
         userService.deleteAll();
         model.addAttribute("users", userService.findAllUsers());
         model.addAttribute("message", "Deleted all Users from Database :(");
-        return "userForm";
+        return "userHome";
     }
 
     @RequestMapping(value = "/findAll", method = RequestMethod.GET)

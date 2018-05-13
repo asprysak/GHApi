@@ -34,7 +34,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(User user) {
-
         User userFromDb = userRepository.findByLogin(user.getLogin());
         if(userFromDb != null) {
             Long idDb = userFromDb.getIdDb();
@@ -46,5 +45,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteAll() {
         userRepository.deleteAll();
+    }
+
+    @Override
+    public User findOne(Long id) {
+        return userRepository.findOne(id);
     }
 }
