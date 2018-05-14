@@ -6,6 +6,7 @@ import pl.b2bnetwork.domain.Gist;
 import pl.b2bnetwork.domain.Person;
 import pl.b2bnetwork.domain.Repo;
 import pl.b2bnetwork.domain.User;
+import pl.b2bnetwork.dto.UserDto;
 
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -18,30 +19,24 @@ public class GithubServiceImpl implements GithubService {
 
     @Override
     public int howManyFollowersThePersonHas(String login) {
-        User user = makeUser(login);
+        UserDto user = makeUser(login);
         return user.getFollowers();
     }
 
     @Override
     public int howManyReposThePersonHas(String login) {
-        User user = makeUser(login);
+        UserDto user = makeUser(login);
         return user.getNoOfPublicRepos();
     }
 
     @Override
     public String howManyDaysAgoTheAccountWasCreated(String login) {
 
-        User user = makeUser(login);
-        String dateString = user.getDateOfCreatingAnAccount();
-        int year = Integer.parseInt(dateString.substring(0,4));
-        int month = Integer.parseInt(dateString.substring(5,7));
-        int day = Integer.parseInt(dateString.substring(8,10));
-
-        Calendar calendar = new GregorianCalendar(year, month, day);
+        UserDto user = makeUser(login);
+        Date dateOfCreatingAnAccount = user.getCalendarForCreatingAnAccount().getTime();
         Calendar now = Calendar.getInstance();
-        Date d2 = now.getTime();
-        Date d1 = calendar.getTime();
-        long days = ChronoUnit.DAYS.between(d1.toInstant(), d2.toInstant());
+        Date dateNow = now.getTime();
+        long days = ChronoUnit.DAYS.between(dateOfCreatingAnAccount.toInstant(), dateNow.toInstant());
         return Long.toString(days);
     }
 
@@ -114,10 +109,10 @@ public class GithubServiceImpl implements GithubService {
         return Arrays.asList(followers);
     }
 
-    private User makeUser(String login) {
+    private UserDto makeUser(String login) {
 
         String url = "https://api.github.com/users/" + login;
-        return restTemplate.getForObject(url, User.class);
+        return restTemplate.getForObject(url, UserDto.class);
     }
 
 }

@@ -9,6 +9,8 @@ import org.springframework.web.client.HttpClientErrorException;
 import pl.b2bnetwork.domain.RepoMaker;
 import pl.b2bnetwork.domain.User;
 import pl.b2bnetwork.domain.UserMaker;
+import pl.b2bnetwork.dto.UserDto;
+import pl.b2bnetwork.dto.UserDtoToUserConverter;
 import pl.b2bnetwork.service.UserService;
 
 import javax.validation.Valid;
@@ -23,6 +25,8 @@ public class UserController {
     private UserMaker userMaker = new UserMaker();
 
     private RepoMaker repoMaker = new RepoMaker();
+
+    private UserDtoToUserConverter userConverter = new UserDtoToUserConverter();
 
     @RequestMapping(value = {"", "/", "home"})
     public String getHome(Model model) {
@@ -43,7 +47,8 @@ public class UserController {
             model.addAttribute("message", "It cannot be that login");
             return "userForm";
         } else {
-            user = userMaker.makeUser(user.getLogin());
+            UserDto userDto = userMaker.makeUser(user.getLogin());
+            user = userConverter.convert(userDto);
             userService.saveUser(user);
             model.addAttribute("users", userService.findAllUsers());
             model.addAttribute("message", "User added: " + user.getLogin());
@@ -76,7 +81,8 @@ public class UserController {
 
     @RequestMapping(value = "/updateUser", method = RequestMethod.PUT)
     public void updateUser(String login) {
-        User user = userMaker.makeUser(login);
+        UserDto userDto = userMaker.makeUser(login);
+        User user = userConverter.convert(userDto);
         userService.updateUser(user);
     }
 
