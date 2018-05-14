@@ -4,8 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import pl.b2bnetwork.domain.Gist;
 import pl.b2bnetwork.domain.Person;
-import pl.b2bnetwork.domain.Repo;
-import pl.b2bnetwork.domain.User;
+import pl.b2bnetwork.dto.RepoDto;
 import pl.b2bnetwork.dto.UserDto;
 
 import java.time.temporal.ChronoUnit;
@@ -76,25 +75,25 @@ public class GithubServiceImpl implements GithubService {
     }
 
     @Override
-    public List<Repo> reposOfAUser(String login) {
+    public List<RepoDto> reposOfAUser(String login) {
 
         String url = "https://api.github.com/users/" + login + "/repos";
-        return Arrays.asList(restTemplate.getForObject(url, Repo[].class));
+        return Arrays.asList(restTemplate.getForObject(url, RepoDto[].class));
     }
 
     @Override
-    public List<Repo> reposOfAUserWhichAreForks(String login) {
+    public List<RepoDto> reposOfAUserWhichAreForks(String login) {
 
-        List<Repo> repos = reposOfAUser(login);
+        List<RepoDto> repos = reposOfAUser(login);
         return repos.stream()
-                .filter(Repo::isFork)
+                .filter(RepoDto::isFork)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Repo> reposWrittenMostlyInASpecificLanguage(String login, String language) {
+    public List<RepoDto> reposWrittenMostlyInASpecificLanguage(String login, String language) {
 
-        List<Repo> repos = reposOfAUser(login);
+        List<RepoDto> repos = reposOfAUser(login);
         return repos.stream()
                 .filter(repo -> repo.getLanguage() != null)
                 .filter(repo -> repo.getLanguage().toLowerCase().equals(language.toLowerCase()))

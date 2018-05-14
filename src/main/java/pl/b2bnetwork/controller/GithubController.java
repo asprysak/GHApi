@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.b2bnetwork.domain.Gist;
-import pl.b2bnetwork.domain.Repo;
+import pl.b2bnetwork.dto.RepoDto;
 import pl.b2bnetwork.service.GithubService;
 
 import java.util.List;
@@ -53,17 +53,17 @@ public class GithubController {
     }
 
     @RequestMapping("/repos")
-    public List<Repo> reposOfAUser(String login) {
+    public List<RepoDto> reposOfAUser(String login) {
         return githubService.reposOfAUser(login);
     }
 
     @RequestMapping("/reposWhichAreForks")
-    public List<Repo> reposWhichAreForks(String login) {
+    public List<RepoDto> reposWhichAreForks(String login) {
         return githubService.reposOfAUserWhichAreForks(login);
     }
 
     @RequestMapping("/reposWrittenInASpecificLanguage")
-    public List<Repo> reposWrittenMostlyInASpecificLanguage(String login, String lang) {
+    public List<RepoDto> reposWrittenMostlyInASpecificLanguage(String login, String lang) {
         return githubService.reposWrittenMostlyInASpecificLanguage(login, lang);
     }
 }
