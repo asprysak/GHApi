@@ -2,34 +2,30 @@
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-    <title>Add new user</title>
-
-<head th:include="navi :: head">
+<head>
+    <meta charset="UTF-8">
+    <title>How many repos</title>
+    <head th:include="navi :: head">
 <body>
 
 <div th:include="navi :: menu"></div>
-
-<form action="#" th:action="@{/users/saveUser}" th:object="${user}" method="POST">
+<form action="#" th:action="@{/github/howManyRepos}" th:object="${user}" method="POST">
     <div class="col-xs-3">
         <div class="thumbnail">
             <label for="login">User login:</label>
             <input type="text" class="form-control" th:field="*{login}">
-            <td th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></td>
         </div>
-        <button type="submit" class="btn btn-success">Submit</button>
+        <button type="submit" class="btn btn-success">Display</button>
         <button type="reset" class="btn btn-warning">Reset</button>
     </div>
+
 </form>
-
-
 <div class="row">
     <div class="col-xs-12">
         <h2>
-            <label class="label label-info" th:text="${message}">Status of action?</label>
+            <label class="label label-info" th:text="${stats}"></label>
         </h2>
-
     </div>
-
 </div>
 </body>
 </html>

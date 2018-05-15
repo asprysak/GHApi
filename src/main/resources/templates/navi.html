@@ -4,7 +4,6 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Navibar</title>
     <meta name="author" content="Agata Dziubała & Anna Sprysak"></meta>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -13,14 +12,33 @@
 </head>
 <body>
 <div class="container" th:fragment="menu">
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand">Menu</a>
             </div>
             <ul class="nav navbar-nav">
-                <li class="acticve"><a href="/users/form">New user</a></li>
-                <li><a href="/users/home">All users</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Users
+                        <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/users/form">New user</a></li>
+                            <li><a href="/users/home">All users</a></li>
+                        </ul>
+                    </a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Github stats
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/github/howManyFollowers">How many followers</a></li>
+                        <li><a href="/github/howManyRepos">How many repos</a></li>
+                        <li><a href="/github/howManyDays">How many days</a></li>
+                    </ul>
+                    </a>
+                </li>
             </ul>
         </div>
     </nav>
