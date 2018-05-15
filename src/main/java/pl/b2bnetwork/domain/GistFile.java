@@ -9,6 +9,16 @@ public class GistFile {
     private String language;
     private int size;
 
+    public GistFile(String filename, String type, String language, int size) {
+        this.filename = filename;
+        this.type = type;
+        this.language = language;
+        this.size = size;
+    }
+
+    public GistFile() {
+    }
+
     public String getFilename() {
         return filename;
     }

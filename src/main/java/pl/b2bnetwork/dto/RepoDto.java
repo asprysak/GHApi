@@ -3,6 +3,8 @@ package pl.b2bnetwork.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import pl.b2bnetwork.domain.Person;
 
+import java.util.Objects;
+
 public class RepoDto {
 
     private long id;
@@ -114,5 +116,28 @@ public class RepoDto {
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RepoDto repoDto = (RepoDto) o;
+        return id == repoDto.id &&
+                fork == repoDto.fork &&
+                size == repoDto.size &&
+                forksCount == repoDto.forksCount &&
+                Objects.equals(name, repoDto.name) &&
+                Objects.equals(fullName, repoDto.fullName) &&
+                Objects.equals(description, repoDto.description) &&
+                Objects.equals(owner, repoDto.owner) &&
+                Objects.equals(dateOfCreatingARepo, repoDto.dateOfCreatingARepo) &&
+                Objects.equals(language, repoDto.language);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, name, fullName, description, owner, fork, dateOfCreatingARepo, size, forksCount, language);
     }
 }

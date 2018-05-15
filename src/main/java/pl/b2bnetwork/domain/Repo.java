@@ -56,32 +56,6 @@ public class Repo {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        Repo repo = (Repo) o;
-        return id == repo.id &&
-                fork == repo.fork &&
-                size == repo.size &&
-                forksCount == repo.forksCount &&
-                Objects.equals(idDb, repo.idDb) &&
-                Objects.equals(name, repo.name) &&
-                Objects.equals(fullName, repo.fullName) &&
-                Objects.equals(description, repo.description) &&
-                Objects.equals(owner, repo.owner) &&
-                Objects.equals(dateOfCreatingARepo, repo.dateOfCreatingARepo) &&
-                Objects.equals(language, repo.language);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(super.hashCode(), idDb, id, name, fullName, description, owner, fork, dateOfCreatingARepo,
-                size, forksCount, language);
-    }
-
     public Long getIdDb() {
         return idDb;
     }
@@ -168,6 +142,30 @@ public class Repo {
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Repo repo = (Repo) o;
+        return id == repo.id &&
+                fork == repo.fork &&
+                size == repo.size &&
+                forksCount == repo.forksCount &&
+                Objects.equals(idDb, repo.idDb) &&
+                Objects.equals(name, repo.name) &&
+                Objects.equals(fullName, repo.fullName) &&
+                Objects.equals(description, repo.description) &&
+                Objects.equals(owner, repo.owner) &&
+                Objects.equals(dateOfCreatingARepo, repo.dateOfCreatingARepo) &&
+                Objects.equals(language, repo.language);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(idDb, id, name, fullName, description, owner, fork, dateOfCreatingARepo, size, forksCount, language);
     }
 
     public static class RepoBuilder {

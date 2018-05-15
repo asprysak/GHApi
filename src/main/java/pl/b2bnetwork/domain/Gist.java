@@ -22,6 +22,9 @@ public class Gist {
     public Gist() {
     }
 
+    public static GistBuilder builder() {
+        return new GistBuilder();
+    }
     public String getId() {
         return this.id;
     }
@@ -63,10 +66,20 @@ public class Gist {
     }
 
     @Override
+    public String toString() {
+        return "Gist{" +
+                "id='" + id + '\'' +
+                ", url='" + url + '\'' +
+                ", description='" + description + '\'' +
+                ", owner=" + owner +
+                ", files=" + files +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
         Gist gist = (Gist) o;
         return Objects.equals(id, gist.id) &&
                 Objects.equals(url, gist.url) &&
@@ -78,18 +91,7 @@ public class Gist {
     @Override
     public int hashCode() {
 
-        return Objects.hash(super.hashCode(), id, url, description, owner, files);
-    }
-
-    @Override
-    public String toString() {
-        return "Gist{" +
-                "id='" + id + '\'' +
-                ", url='" + url + '\'' +
-                ", description='" + description + '\'' +
-                ", owner=" + owner +
-                ", files=" + files +
-                '}';
+        return Objects.hash(id, url, description, owner, files);
     }
 
     public static class GistBuilder {
