@@ -12,7 +12,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idDb;
-    @Length(min = 1, message = "")
+    @Length(min = 1)
     @Column(unique = true)
     private String login;
     private long id;

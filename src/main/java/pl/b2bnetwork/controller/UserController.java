@@ -39,16 +39,21 @@ public class UserController {
 
     @RequestMapping("/saveUser")
     public String saveUser(Model model, @ModelAttribute @Valid User user, BindingResult bind) {
-        if (bind.hasErrors()) {
-            model.addAttribute("message", "It cannot be that login");
+        try {
+            if (bind.hasErrors()) {
+                model.addAttribute("message", "Login cannot be empty");
+                return "userForm";
+            } else {
+                UserDto userDto = apiAccess.makeUser(user.getLogin());
+                user = userConverter.convert(userDto);
+                userService.saveUser(user);
+                model.addAttribute("users", userService.findAllUsers());
+                model.addAttribute("message", "User added: " + user.getLogin());
+                return "userHome";
+            }
+        } catch (Exception ex) {
+            model.addAttribute("message", "User doesn't exist");
             return "userForm";
-        } else {
-            UserDto userDto = apiAccess.makeUser(user.getLogin());
-            user = userConverter.convert(userDto);
-            userService.saveUser(user);
-            model.addAttribute("users", userService.findAllUsers());
-            model.addAttribute("message", "User added: " + user.getLogin());
-            return "userHome";
         }
     }
 
