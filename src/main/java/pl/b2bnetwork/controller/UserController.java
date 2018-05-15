@@ -4,13 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import pl.b2bnetwork.domain.RepoMaker;
+import org.springframework.web.bind.annotation.*;
+import pl.b2bnetwork.domain.GithubApiAccess;
 import pl.b2bnetwork.domain.User;
-import pl.b2bnetwork.domain.UserMaker;
 import pl.b2bnetwork.dto.UserDto;
 import pl.b2bnetwork.dto.UserDtoToUserConverter;
 import pl.b2bnetwork.service.UserService;
@@ -24,9 +20,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    private UserMaker userMaker = new UserMaker();
-
-    private RepoMaker repoMaker = new RepoMaker();
+    private GithubApiAccess apiAccess = new GithubApiAccess();
 
     private UserDtoToUserConverter userConverter = new UserDtoToUserConverter();
 
@@ -49,7 +43,7 @@ public class UserController {
             model.addAttribute("message", "It cannot be that login");
             return "userForm";
         } else {
-            UserDto userDto = userMaker.makeUser(user.getLogin());
+            UserDto userDto = apiAccess.makeUser(user.getLogin());
             user = userConverter.convert(userDto);
             userService.saveUser(user);
             model.addAttribute("users", userService.findAllUsers());
@@ -83,7 +77,7 @@ public class UserController {
 
     @RequestMapping(value = "/updateUser", method = RequestMethod.PUT)
     public void updateUser(String login) {
-        UserDto userDto = userMaker.makeUser(login);
+        UserDto userDto = apiAccess.makeUser(login);
         User user = userConverter.convert(userDto);
         userService.updateUser(user);
     }

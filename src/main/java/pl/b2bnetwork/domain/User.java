@@ -151,7 +151,7 @@ public class User {
         private String avatarUrl;
 
         UserBuilder() {
-    }
+        }
 
         public User.UserBuilder idDb(Long idDb) {
             this.idDb = idDb;
