@@ -20,12 +20,15 @@
     </div>
 
 </form>
-<div class="row">
-    <div class="col-xs-12">
-        <h2>
-            <label class="label label-info" th:text="${stats}"></label>
-        </h2>
+<div th:object="${user}" th:if = "${user.login != null}">
+    <div class="row">
+        <div class="col-xs-12">
+            <h2>
+                <label class="label label-info" th:text="${stats}"></label>
+            </h2>
+        </div>
     </div>
 </div>
+
 </body>
 </html>
