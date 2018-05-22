@@ -2,34 +2,68 @@
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-    <title>Add new user</title>
+<title>Add new user</title>
 
 <head th:include="navi :: head">
 <body>
+<div class="container-fluid">
+    <div th:include="navi :: menu"></div>
+    <div class="card" style="width: 50%">
+        <div class="card-body">
+            <section>
+                <form action="#" th:action="@{/users/saveUser}" th:object="${user}" method="POST"
+                      class="needs-validation"
+                      novalidate>
+                    <div class="form-group">
+                        <label for="login">User login:</label>
+                        <input type="text" id="login" placeholder="Login" class="form-control" pattern="^[a-z|A-Z|0-9]+$"
+                               th:field="*{login}"
+                               autofocus required>
+                        <td th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></td>
+                        <div class="invalid-feedback">
+                            Login must contain only letters or numbers
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success">Submit</button>
+                    <button type="reset" class="btn btn-warning">Reset</button>
 
-<div th:include="navi :: menu"></div>
+                    <h2>
+                        <label class="badge badge-info" th:text="${message}">Status of action?</label>
+                    </h2>
+                </form>
+            </section>
 
-<form action="#" th:action="@{/users/saveUser}" th:object="${user}" method="POST">
-    <div class="col-xs-3">
-        <div class="thumbnail">
-            <label for="login">User login:</label>
-            <input type="text" pattern="[A-Za-z0-9]" class="form-control" th:field="*{login}">
-            <td th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></td>
+            <!--
+                        <div class="row">
+                            <div class="col-xs-12">
+
+                            </div>
+                        </div>-->
         </div>
-        <button type="submit" class="btn btn-success">Submit</button>
-        <button type="reset" class="btn btn-warning">Reset</button>
     </div>
-</form>
-
-
-<div class="row">
-    <div class="col-xs-12">
-        <h2>
-            <label class="label label-info" th:text="${message}">Status of action?</label>
-        </h2>
-
-    </div>
-
 </div>
+
+<script>
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+
+
+</script>
 </body>
 </html>

@@ -72,7 +72,7 @@ public class UserController {
     public String deleteAll(Model model) {
         userService.deleteAll();
         model.addAttribute("users", userService.findAllUsers());
-        model.addAttribute("message", "Deleted all Users from Database :(");
+        model.addAttribute("message", "Deleted all users from database :(");
         return "userHome";
     }
 

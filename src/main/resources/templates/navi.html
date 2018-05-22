@@ -4,44 +4,69 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="author" content="Agata Dziubała & Anna Sprysak"></meta>
+    <meta name="author" content="Agata Dziubała"></meta>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container" th:fragment="menu">
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand">Menu</a>
-            </div>
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Users
-                        <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="/users/form">New user</a></li>
-                            <li><a href="/users/home">All users</a></li>
-                        </ul>
-                    </a>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Github stats
-                        <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/github/howManyFollowers">How many followers</a></li>
-                        <li><a href="/github/howManyRepos">How many repos</a></li>
-                        <li><a href="/github/howManyDays">How many days</a></li>
-                    </ul>
-                    </a>
-                </li>
-            </ul>
-        </div>
+<div class="container-fluid" th:fragment="menu">
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <!-- Brand -->
+        <a class="navbar-brand" href="#">Menu</a>
+
+        <!-- Links -->
+        <ul class="navbar-nav">
+            <!-- Dropdown -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                    Users
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/users/form">New User</a>
+                    <a class="dropdown-item" href="/users/home">All users</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                    GitHub stats
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/github/howManyFollowers">How many followers</a>
+                    <a class="dropdown-item" href="/github/howManyRepos">How many repos</a>
+                    <a class="dropdown-item" href="/github/howManyDays">How many days</a>
+                </div>
+            </li>
+        </ul>
     </nav>
+   <!--    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+               &lt;!&ndash;<div class="navbar-header">&ndash;&gt;
+                   <a class="navbar-brand">Menu</a>
+               &lt;!&ndash;</div>&ndash;&gt;
+           <ul class="navbar-nav">
+
+                   <li class="dropdown">
+                       <a class="dropdown-toggle" data-toggle="dropdown" href="#">Users
+                           <span class="caret"></span></a>
+                           <ul class="dropdown-menu">
+                               <li><a href="/users/form">New user</a></li>
+                               <li><a href="/users/home">All users</a></li>
+                           </ul>
+                       </a>
+                   </li>
+                   <li class="dropdown">
+                       <a class="dropdown-toggle" data-toggle="dropdown" href="#">Github stats
+                           <span class="caret"></span></a>
+                       <ul class="dropdown-menu">
+                           <li><a href="/github/howManyFollowers">How many followers</a></li>
+                           <li><a href="/github/howManyRepos">How many repos</a></li>
+                           <li><a href="/github/howManyDays">How many days</a></li>
+                       </ul>
+                       </a>
+                   </li>
+               </ul>
+       </nav>-->
 </div>
 </body>
 </html>
