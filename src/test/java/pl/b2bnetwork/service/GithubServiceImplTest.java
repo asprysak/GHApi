@@ -1,6 +1,5 @@
 package pl.b2bnetwork.service;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,11 +14,11 @@ import pl.b2bnetwork.domain.Person;
 import pl.b2bnetwork.dto.RepoDto;
 import pl.b2bnetwork.dto.UserDto;
 
-import javax.persistence.Table;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.Clock;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
@@ -32,78 +31,19 @@ public class GithubServiceImplTest {
     @InjectMocks
     private GithubServiceImpl service = new GithubServiceImpl();
     private UserDto user = new UserDto();
-    private Person akowalPerson;
+    private Person personAKowal;
     private List<Person> followers = new ArrayList<>();
+    private List<Gist> gists = new ArrayList<>();
+    private List<RepoDto> repos = new ArrayList<>();
+
 
     @Before
     public void init() {
 
-        user.setId(1);
-        user.setFollowers(3);
-        user.setLogin("akowal");
-        user.setDateOfCreatingAnAccount("2018-01-01");
-        user.setNoOfPublicRepos(5);
-        followers.add(new Person("jnowak", 2));
-        followers.add(new Person("zbyszek", 3));
-
-        UserDto nowakUser = new UserDto();
-        nowakUser.setFollowers(10);
-        nowakUser.setNoOfPublicRepos(6);
-
-        UserDto zbyszekUser = new UserDto();
-        zbyszekUser.setFollowers(18);
-        zbyszekUser.setNoOfPublicRepos(4);
-
-        Mockito.when(apiAccess.makeUser("jnowak")).thenReturn(nowakUser);
-        Mockito.when(apiAccess.makeUser("zbyszek")).thenReturn(zbyszekUser);
-
-        Mockito.when(apiAccess.makeUser("akowal")).thenReturn(user);
-        Mockito.when(apiAccess.followersOfAUser("akowal")).thenReturn(followers);
-
-        List<Gist> gists = new ArrayList<>();
-        akowalPerson = new Person(user.getLogin(), user.getId());
-        Map<String, GistFile> files1 = new HashMap<>();
-        gists.add(Gist.builder().id("aaa")
-                .owner(akowalPerson)
-                .description("gist in python")
-                .url("/adres/1")
-                .files(files1)
-                .build());
-        Map<String, GistFile> files2 = new HashMap<>();
-        gists.add(Gist.builder().id("bbb")
-                .owner(akowalPerson)
-                .description("gist in java")
-                .url("/adres/2")
-                .files(files2)
-                .build());
-        Map<String, GistFile> files3 = new HashMap<>();
-        gists.add(Gist.builder().id("ccc")
-                .owner(akowalPerson)
-                .description("bash script")
-                .url("/adres/3")
-                .files(files3)
-                .build());
-
-        Mockito.when(apiAccess.gistsOfAUSer("akowal")).thenReturn(gists);
-
-        List<RepoDto> repos = new ArrayList<>();
-        RepoDto rep1 = new RepoDto();
-        rep1.setName("Empowerment");
-        rep1.setLanguage("Java");
-        rep1.setFork(false);
-        repos.add(rep1);
-        RepoDto rep2 = new RepoDto();
-        rep2.setName("QDA");
-        rep2.setLanguage("Java");
-        rep2.setFork(false);
-        repos.add(rep2);
-        RepoDto rep3 = new RepoDto();
-        rep3.setName("plf");
-        rep3.setLanguage("Python");
-        rep3.setFork(true);
-        repos.add(rep3);
-
-        Mockito.when(apiAccess.reposOfAUser("akowal")).thenReturn(repos);
+        initPerson();
+        mockFollowers();
+        mockGists();
+        mockRepos();
     }
 
     @Test
@@ -121,61 +61,35 @@ public class GithubServiceImplTest {
     @Test
     public void gistsWhichDescriptionContainsWordElements() {
 
-        Map<String, GistFile> files1 = new HashMap<>();
-        Gist g1 = Gist.builder().id("aaa")
-                .owner(akowalPerson)
-                .description("gist in python")
-                .url("/adres/1")
-                .files(files1)
-                .build();
-        Map<String, GistFile> files2 = new HashMap<>();
-        Gist g2 = Gist.builder().id("bbb")
-                .owner(akowalPerson)
-                .description("gist in java")
-                .url("/adres/2")
-                .files(files2)
-                .build();
-
         List<Gist> res = service.gistsWhichDescriptionContainsWord("akowal", "gist");
-        System.out.println(res);
-        assertThat(res, containsInAnyOrder(g1, g2));
+        assertThat(res, containsInAnyOrder(gists.get(0), gists.get(1)));
     }
 
     @Test
     public void gistsWhichDescriptionContainsWordSize() {
 
         List<Gist> res = service.gistsWhichDescriptionContainsWord("akowal", "gist");
-        System.out.println(res);
         assertEquals(2, res.size());
     }
 
     @Test
     public void reposOfAUserWhichAreForks() {
 
-        List<RepoDto> expected = new ArrayList<>();
-        RepoDto rep3 = new RepoDto();
-        rep3.setName("plf");
-        rep3.setLanguage("Python");
-        rep3.setFork(true);
-        expected.add(rep3);
-
         List<RepoDto> res = service.reposOfAUserWhichAreForks("akowal");
-        assertEquals(expected, res);
+        assertThat(res, contains(repos.get(2)));
     }
 
     @Test
+    public void reposOfAUserWhichAreForksSize() {
+
+        List<RepoDto> res = service.reposOfAUserWhichAreForks("akowal");
+        assertEquals(1, res.size());
+    }
+    @Test
     public void reposWrittenMostlyInASpecificLanguageElements() {
 
-        RepoDto rep1 = new RepoDto();
-        rep1.setName("Empowerment");
-        rep1.setLanguage("Java");
-        RepoDto rep2 = new RepoDto();
-        rep2.setName("QDA");
-        rep2.setLanguage("Java");
-
         List<RepoDto> res = service.reposWrittenMostlyInASpecificLanguage("akowal", "Java");
-
-        assertThat(res, containsInAnyOrder(rep1, rep2));
+        assertThat(res, containsInAnyOrder(repos.get(0), repos.get(1)));
     }
 
     @Test
@@ -184,4 +98,83 @@ public class GithubServiceImplTest {
         List<RepoDto> res = service.reposWrittenMostlyInASpecificLanguage("akowal", "Java");
         assertEquals(2, res.size());
     }
+
+    private void mockRepos() {
+
+        RepoDto rep1 = new RepoDto();
+        rep1.setName("Empowerment");
+        rep1.setLanguage("Java");
+        rep1.setFork(false);
+        repos.add(rep1);
+        RepoDto rep2 = new RepoDto();
+        rep2.setName("QDA");
+        rep2.setLanguage("Java");
+        rep2.setFork(false);
+        repos.add(rep2);
+        RepoDto rep3 = new RepoDto();
+        rep3.setName("plf");
+        rep3.setLanguage("Python");
+        rep3.setFork(true);
+        rep3.setOwner(personAKowal);
+        repos.add(rep3);
+
+        Mockito.when(apiAccess.reposOfAUser("akowal")).thenReturn(repos);
+    }
+
+    private void mockGists() {
+
+        personAKowal = new Person(user.getLogin(), user.getId());
+        Map<String, GistFile> files1 = new HashMap<>();
+        gists.add(Gist.builder().id("aaa")
+                .owner(personAKowal)
+                .description("gist in python")
+                .url("/adres/1")
+                .files(files1)
+                .build());
+        Map<String, GistFile> files2 = new HashMap<>();
+        gists.add(Gist.builder().id("bbb")
+                .owner(personAKowal)
+                .description("gist in java")
+                .url("/adres/2")
+                .files(files2)
+                .build());
+        Map<String, GistFile> files3 = new HashMap<>();
+        gists.add(Gist.builder().id("ccc")
+                .owner(personAKowal)
+                .description("bash script")
+                .url("/adres/3")
+                .files(files3)
+                .build());
+
+        Mockito.when(apiAccess.gistsOfAUSer("akowal")).thenReturn(gists);
+    }
+
+    private void mockFollowers() {
+
+        UserDto nowakUser = new UserDto();
+        nowakUser.setFollowers(10);
+        nowakUser.setNoOfPublicRepos(6);
+
+        UserDto zbyszekUser = new UserDto();
+        zbyszekUser.setFollowers(18);
+        zbyszekUser.setNoOfPublicRepos(4);
+
+        Mockito.when(apiAccess.makeUser("jnowak")).thenReturn(nowakUser);
+        Mockito.when(apiAccess.makeUser("zbyszek")).thenReturn(zbyszekUser);
+
+        Mockito.when(apiAccess.makeUser("akowal")).thenReturn(user);
+        Mockito.when(apiAccess.followersOfAUser("akowal")).thenReturn(followers);
+    }
+
+    private void initPerson() {
+
+        user.setId(1);
+        user.setFollowers(3);
+        user.setLogin("akowal");
+        user.setDateOfCreatingAnAccount("2018-01-01");
+        user.setNoOfPublicRepos(5);
+        followers.add(new Person("jnowak", 2));
+        followers.add(new Person("zbyszek", 3));
+    }
+
 }

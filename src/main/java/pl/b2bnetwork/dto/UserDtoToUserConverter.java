@@ -10,7 +10,7 @@ public class UserDtoToUserConverter {
     public User convert(UserDto dto) {
 
         Calendar calendar = dto.getCalendarForCreatingAnAccount();
-        java.sql.Date dateSql = new Date(calendar.getTime().getTime());
+        java.sql.Date dateSql = new Date(calendar.getTimeInMillis());
 
         User user = User.builder()
                 .id(dto.getId())

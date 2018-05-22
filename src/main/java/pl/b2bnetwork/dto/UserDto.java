@@ -19,12 +19,26 @@ public class UserDto {
     @JsonProperty("avatar_url")
     private String avatarUrl;
 
+    public UserDto(long id, String login, int noOfPublicRepos, int followers, String dateOfCreatingAnAccount,
+                   String reposUrl, String avatarUrl) {
+        this.id = id;
+        this.login = login;
+        this.noOfPublicRepos = noOfPublicRepos;
+        this.followers = followers;
+        this.dateOfCreatingAnAccount = dateOfCreatingAnAccount;
+        this.reposUrl = reposUrl;
+        this.avatarUrl = avatarUrl;
+    }
+
+    public UserDto() {
+    }
+
     public Calendar getCalendarForCreatingAnAccount() {
         String dateString = dateOfCreatingAnAccount;
         int year = Integer.parseInt(dateString.substring(0,4));
         int month = Integer.parseInt(dateString.substring(5,7));
         int day = Integer.parseInt(dateString.substring(8,10));
-        return new GregorianCalendar(year, month, day);
+        return new GregorianCalendar(year, month - 1, day);
     }
 
     public long getId() {

@@ -140,4 +140,20 @@ public class RepoDto {
 
         return Objects.hash(id, name, fullName, description, owner, fork, dateOfCreatingARepo, size, forksCount, language);
     }
+
+    @Override
+    public String toString() {
+        return "RepoDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", description='" + description + '\'' +
+                ", owner=" + owner +
+                ", fork=" + fork +
+                ", dateOfCreatingARepo='" + dateOfCreatingARepo + '\'' +
+                ", size=" + size +
+                ", forksCount=" + forksCount +
+                ", language='" + language + '\'' +
+                '}';
+    }
 }

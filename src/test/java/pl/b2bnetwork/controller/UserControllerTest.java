@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import pl.b2bnetwork.domain.Gist;
 import pl.b2bnetwork.domain.User;
 import pl.b2bnetwork.service.UserService;
 
