@@ -39,22 +39,24 @@ public class UserController {
 
     @RequestMapping("/saveUser")
     public String saveUser(Model model, @ModelAttribute @Valid User user, BindingResult bind) {
+        String template = "/";
         try {
             if (bind.hasErrors()) {
-                model.addAttribute("message", "Login cannot be empty");
-                return "userForm";
+                model.addAttribute("message", "Not a valid login");
+                template =  "userForm";
             } else {
                 UserDto userDto = apiAccess.makeUser(user.getLogin());
                 user = userConverter.convert(userDto);
                 userService.saveUser(user);
                 model.addAttribute("users", userService.findAllUsers());
                 model.addAttribute("message", "User added: " + user.getLogin());
-                return "userHome";
+                template = "userHome";
             }
         } catch (Exception ex) {
             model.addAttribute("message", "User doesn't exist");
-            return "userForm";
+            template = "userForm";
         }
+        return template;
     }
 
     @RequestMapping("/deleteUser")

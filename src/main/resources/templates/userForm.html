@@ -13,7 +13,7 @@
     <div class="col-xs-3">
         <div class="thumbnail">
             <label for="login">User login:</label>
-            <input type="text" class="form-control" th:field="*{login}">
+            <input type="text" pattern="[A-Za-z0-9]" class="form-control" th:field="*{login}">
             <td th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></td>
         </div>
         <button type="submit" class="btn btn-success">Submit</button>

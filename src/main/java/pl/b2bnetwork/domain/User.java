@@ -3,6 +3,7 @@ package pl.b2bnetwork.domain;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.sql.Date;
 import java.util.Objects;
 
@@ -12,8 +13,9 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idDb;
-    @Length(min = 1)
+    @Length(min = 1, message = "Login cannot be empty")
     @Column(unique = true)
+   // @Pattern(regexp = "^[A-Za-z0-9]+$", message = "Login must contain only letters or numbers")
     private String login;
     private long id;
     private int noOfPublicRepos;
